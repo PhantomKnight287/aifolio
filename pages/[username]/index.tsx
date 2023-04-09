@@ -120,7 +120,9 @@ export const getStaticProps: GetStaticProps<{
 
   if (error) {
     return {
-      notFound: true,
+      props: {
+        notGenerated: true,
+      },
     };
   }
   if (data === undefined) {
