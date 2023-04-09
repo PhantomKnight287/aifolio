@@ -5,7 +5,7 @@ const app = e();
 
 app.use(cors());
 
-ap.post(`/:username/generate`, async (req, res) => {
+app.post(`/:username/generate`, async (req, res) => {
   if (req.method != "POST")
     return res.status(405).json({ message: "Method not allowed" });
   const body = req.body;
@@ -41,7 +41,7 @@ ap.post(`/:username/generate`, async (req, res) => {
     n: 1,
   };
 
-  const res = await fetch("https://api.openai.com/v1/chat/completions", {
+  const r = await fetch("https://api.openai.com/v1/chat/completions", {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${process.env.OPENAI_KEY ?? ""}`,
@@ -49,10 +49,14 @@ ap.post(`/:username/generate`, async (req, res) => {
     method: "POST",
     body: JSON.stringify(payload),
   });
-  if (!res.ok) {
+  if (!r.ok) {
     return res.status(500).json({ message: "Something went wrong" });
   }
-  return res.json(await res.json());
+  return res.json(await r.json());
+});
+
+app.get("/", (req, res) => {
+  res.json({ message: "Hello World" });
 });
 
 app.listen(process.env.PORT || 3000, () => {
