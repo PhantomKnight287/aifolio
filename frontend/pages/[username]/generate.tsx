@@ -46,7 +46,7 @@ export default function GeneratePortfolio() {
   const generate = async () => {
     setLoading(true);
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API}/${query.username}/generate`,
+      `${process.env.NEXT_PUBLIC_API_URL}/${query.username}/generate`,
       {
         method: "POST",
         headers: {
