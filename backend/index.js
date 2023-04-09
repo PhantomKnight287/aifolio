@@ -3,7 +3,11 @@ import cors from "cors";
 
 const app = e();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.ORIGIN || "*",
+  })
+);
 
 app.post(`/:username/generate`, async (req, res) => {
   if (req.method != "POST")
