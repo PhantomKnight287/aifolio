@@ -2,11 +2,11 @@ import { FC } from "react";
 import Link from "next/link";
 import { clsx } from "clsx";
 import { sen } from "@/fonts";
-import { useUser } from "@supabase/auth-helpers-react";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 
 export const Header: FC<{}> = () => {
   const user = useUser();
-
+  const { auth } = useSupabaseClient();
   return (
     <nav className="w-full z-20 top-0 left-0 ">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -46,6 +46,9 @@ export const Header: FC<{}> = () => {
             <button
               type="button"
               className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              onClick={() => {
+                auth.signInWithOAuth({ provider: "github" });
+              }}
             >
               Get started
             </button>
