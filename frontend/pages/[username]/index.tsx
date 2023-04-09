@@ -123,6 +123,7 @@ export const getStaticProps: GetStaticProps<{
       props: {
         notGenerated: true,
       },
+      revalidate: 60,
     };
   }
   if (data === undefined) {
@@ -130,11 +131,13 @@ export const getStaticProps: GetStaticProps<{
       props: {
         notGenerated: true,
       },
+      revalidate: 60,
     };
   }
   return {
     props: {
       portfolio: data,
     },
+    revalidate: 60,
   };
 };
