@@ -1,6 +1,7 @@
 import e from "express";
 import cors from "cors";
-
+import 'dotenv/config'
+import axios from "axios";
 const app = e();
 app.use(e.json())
 app.use(
@@ -49,18 +50,18 @@ app.post(`/:username/generate`, async (req, res) => {
     n: 1,
   };
 
-  const r = await fetch("https://api.openai.com/v1/chat/completions", {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_KEY ?? ""}`,
-    },
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
-  if (!r.ok) {
+  try {
+    const response = await axios.post("https://api.openai.com/v1/chat/completions", payload, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_KEY ?? ""}`,
+      }
+    });
+  
+    return res.json(response.data);
+  } catch (error) {
     return res.status(500).json({ message: "Something went wrong" });
   }
-  return res.json(await r.json());
 });
 
 app.get("/", (req, res) => {
