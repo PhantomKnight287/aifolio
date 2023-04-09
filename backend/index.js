@@ -2,13 +2,17 @@ import e from "express";
 import cors from "cors";
 
 const app = e();
-
+app.use(e.json())
 app.use(
   cors({
     origin: process.env.ORIGIN || "*",
   })
 );
 
+/**
+ * @param {e.Request} req
+ * @param {e.Response} res
+ */
 app.post(`/:username/generate`, async (req, res) => {
   if (req.method != "POST")
     return res.status(405).json({ message: "Method not allowed" });
