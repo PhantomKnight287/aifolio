@@ -45,15 +45,18 @@ export default function GeneratePortfolio() {
 
   const generate = async () => {
     setLoading(true);
-    const response = await fetch(`/api/${query.username}/generate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        repos: selectedRepos,
-      }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API}/${query.username}/generate`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          repos: selectedRepos,
+        }),
+      }
+    );
     setLoading(false);
 
     if (!response.ok) {
