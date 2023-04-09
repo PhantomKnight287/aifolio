@@ -1,3 +1,4 @@
+// code taken from https://github.com/phantomknight287/lend-my-skill
 import Head from "next/head";
 import { FC } from "react";
 
