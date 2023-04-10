@@ -17,6 +17,11 @@ const MetaTags: FC<MetaTagsProps> = ({ description, title, ogImage }) => {
         <meta name="title" content={title} />
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
+        {/* generate random color */}
+        <meta
+          name="theme-color"
+          content={"#" + Math.floor(Math.random() * 16777215).toString(16)}
+        />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
@@ -29,10 +34,7 @@ const MetaTags: FC<MetaTagsProps> = ({ description, title, ogImage }) => {
         {/* <meta property="twitter:url" content="https://lendmyskill.com" /> */}
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
-        <meta
-          property="twitter:image"
-          content={ogImage || "/image.png"}
-        />
+        <meta property="twitter:image" content={ogImage || "/image.png"} />
       </>
     </Head>
   );
