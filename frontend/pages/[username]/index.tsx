@@ -5,12 +5,18 @@ import { Renderer } from "@/components/renderer";
 import { supabase } from "@/utils/supabase";
 import { useUser } from "@supabase/auth-helpers-react";
 import clsx from "clsx";
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import {
+  GetServerSideProps,
+  GetStaticPaths,
+  GetStaticProps,
+  InferGetServerSidePropsType,
+  InferGetStaticPropsType,
+} from "next";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 
 export default function Portfolio(
-  props: InferGetStaticPropsType<typeof getStaticProps>
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
   const { push, asPath } = useRouter();
   const user = useUser();
@@ -63,7 +69,7 @@ export default function Portfolio(
       <Renderer>{portfolio.portfolio}</Renderer>
 
       <div className="mt-20">
-        {user?.user_metadata?.username === portfolio.username && (
+        {user?.user_metadata?.user_name === portfolio.username && (
           <>
             Want to regenerate your portfolio?{" "}
             <button
@@ -89,19 +95,7 @@ export default function Portfolio(
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const d = await supabase.from("portfolios").select("username");
-  return {
-    paths: (d.data || []).map((p) => ({
-      params: {
-        username: p.username,
-      },
-    })),
-    fallback: "blocking",
-  };
-};
-
-export const getStaticProps: GetStaticProps<{
+export const getServerSideProps: GetServerSideProps<{
   portfolio?: {
     avatarUrl: string | null;
     created_at: string | null;
@@ -123,7 +117,6 @@ export const getStaticProps: GetStaticProps<{
       props: {
         notGenerated: true,
       },
-      revalidate: 60,
     };
   }
   if (data === undefined) {
@@ -131,13 +124,11 @@ export const getStaticProps: GetStaticProps<{
       props: {
         notGenerated: true,
       },
-      revalidate: 60,
     };
   }
   return {
     props: {
       portfolio: data,
     },
-    revalidate: 60,
   };
 };
