@@ -1,9 +1,0 @@
-POST http://localhost:3000/phantomknight287/generate
-Content-Type: application/json
-
-{
-  "repos":[{
-		"name":"Lend My Skill",
-		"description":"Open source freelance platform for indians"
-	}]
-}
