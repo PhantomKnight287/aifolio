@@ -5,6 +5,7 @@ import { AppProps } from "next/app";
 import { useState } from "react";
 import "../styles/globals.css";
 import { sen } from "@/fonts";
+import NextNProgress from "nextjs-progressbar";
 
 export default function MyApp({
   Component,
@@ -12,7 +13,6 @@ export default function MyApp({
 }: AppProps<{
   initialSession: Session;
 }>) {
-  // Create a new supabase browser client on every first render.
   const [supabaseClient] = useState(() => createBrowserSupabaseClient());
 
   return (
@@ -20,6 +20,7 @@ export default function MyApp({
       supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
+      <NextNProgress />
       <Header />
       <div className={sen.className}>
         <Component {...pageProps} />
