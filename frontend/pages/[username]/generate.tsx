@@ -45,6 +45,19 @@ export default function GeneratePortfolio() {
 
   const generate = async () => {
     setLoading(true);
+    const { data: previousPortfolio } = await supabase
+      .from("portfolios")
+      .select("*")
+      .eq("username", query.username)
+      .single();
+    if (previousPortfolio) {
+      if (previousPortfolio.tries >= 3) {
+        setLoading(false);
+        setState("error");
+        setError("You have reached the maximum number of tries");
+        return;
+      }
+    }
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/${query.username}/generate`,
       {
@@ -68,11 +81,7 @@ export default function GeneratePortfolio() {
     const data = await response.json();
     if (data.choices?.[0]?.message) {
       setState("generated");
-      const { data: previousPortfolio } = await supabase
-        .from("portfolios")
-        .select("*")
-        .eq("username", query.username)
-        .single();
+
       if (previousPortfolio) {
         await supabase
           .from("portfolios")
@@ -80,6 +89,7 @@ export default function GeneratePortfolio() {
             portfolio: data.choices[0].message.content,
             username: query.username,
             avatarUrl: user!.user_metadata.avatar_url,
+            tries: previousPortfolio.tries + 1,
           })
           .eq("username", query.username);
       } else {
