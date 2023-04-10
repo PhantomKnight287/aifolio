@@ -22,26 +22,28 @@ export const Header: FC<{}> = () => {
         </Link>
         <div className="flex md:order-2">
           {user?.user_metadata?.name ? (
-            <div
-              className={clsx(
-                "flex items-center",
-                "cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full p-2 transition duration-200 ease-in-out dark:text-gray-300 text-gray-700 dark:hover:text-white hover:text-gray-900 dark:bg-gray-900 bg-gray-100 bg-opacity-50"
-              )}
-            >
-              <img
-                src={user.user_metadata.avatar_url}
-                alt="avatar"
-                className="w-8 h-8 rounded-full"
-              />
-              <span
+            <Link href={`/${user.user_metadata.user_name}`}>
+              <div
                 className={clsx(
-                  "text-gray-700 dark:text-gray-300 text-base ml-2",
-                  sen.className
+                  "flex items-center",
+                  "cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full p-2 transition duration-200 ease-in-out dark:text-gray-300 text-gray-700 dark:hover:text-white hover:text-gray-900 dark:bg-gray-900 bg-gray-100 bg-opacity-50"
                 )}
               >
-                {user.user_metadata.name}
-              </span>
-            </div>
+                <img
+                  src={user.user_metadata.avatar_url}
+                  alt="avatar"
+                  className="w-8 h-8 rounded-full"
+                />
+                <span
+                  className={clsx(
+                    "text-gray-700 dark:text-gray-300 text-base ml-2",
+                    sen.className
+                  )}
+                >
+                  {user.user_metadata.name}
+                </span>
+              </div>
+            </Link>
           ) : (
             <button
               type="button"
